@@ -6,5 +6,8 @@ use App\User;
 
 class Seller extends User
 {
-    //Not necessary to specify the fillable or hidden because this extends from User.
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
