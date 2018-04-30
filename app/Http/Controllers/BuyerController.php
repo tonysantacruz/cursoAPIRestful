@@ -14,19 +14,9 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $buyers = Buyer::all();
+        //return response()->json(['data' => $buyers], 200);
+        return $this->showAll($buyers);
     }
 
     /**
@@ -37,29 +27,8 @@ class BuyerController extends Controller
      */
     public function show(Buyer $buyer)
     {
-        //
+//        return response()->json(['data' => $buyer], 200);
+        return $this->showOne($buyer);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Buyer  $buyer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Buyer $buyer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Buyer  $buyer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Buyer $buyer)
-    {
-        //
-    }
 }
