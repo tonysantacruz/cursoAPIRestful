@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Transaction;
 
-use App\Seller;
 use App\Transaction;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class TransactionSellerController extends Controller
@@ -21,6 +19,4 @@ class TransactionSellerController extends Controller
 
         return $this->showOne($seller);
     }
-
-
 }

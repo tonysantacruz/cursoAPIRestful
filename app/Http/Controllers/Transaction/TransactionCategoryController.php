@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Transaction;
 
-use App\Category;
 use App\Transaction;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class TransactionCategoryController extends Controller
@@ -21,7 +19,4 @@ class TransactionCategoryController extends Controller
 
         return $this->showAll($categories);
     }
-
-
-
 }

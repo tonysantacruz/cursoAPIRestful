@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Transaction;
 use App\Seller;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SellerTransactionController extends Controller
@@ -18,7 +16,7 @@ class SellerTransactionController extends Controller
     public function index(Seller $seller)
     {
         $transactions = $seller->products()
-            ->whereHas('transactions') //para asegurarnos que los productos tengan transacciones
+            ->whereHas('transactions')
             ->with('transactions')
             ->get()
             ->pluck('transactions')
@@ -26,5 +24,4 @@ class SellerTransactionController extends Controller
 
         return $this->showAll($transactions);
     }
-
 }

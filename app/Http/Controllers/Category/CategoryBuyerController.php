@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Category;
 
-use App\Buyer;
 use App\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CategoryBuyerController extends Controller
@@ -28,6 +26,6 @@ class CategoryBuyerController extends Controller
             ->values();
 
         return $this->showAll($buyers);
-    }
 
+    }
 }

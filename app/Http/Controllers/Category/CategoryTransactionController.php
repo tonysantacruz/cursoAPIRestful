@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Category;
 
-use App\Transaction;
 use App\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CategoryTransactionController extends Controller
@@ -18,7 +16,7 @@ class CategoryTransactionController extends Controller
     public function index(Category $category)
     {
         $transactions = $category->products()
-            ->whereHas('transactions') //Busca los productos que tengan transacciones
+            ->whereHas('transactions')
             ->with('transactions')
             ->get()
             ->pluck('transactions')
@@ -26,5 +24,4 @@ class CategoryTransactionController extends Controller
 
         return $this->showAll($transactions);
     }
-
 }

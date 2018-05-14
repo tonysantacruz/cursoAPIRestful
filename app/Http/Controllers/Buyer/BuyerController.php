@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Buyer;
 use App\Buyer;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-
 class BuyerController extends Controller
 {
     /**
@@ -17,7 +15,7 @@ class BuyerController extends Controller
     public function index()
     {
         $buyers = Buyer::all();
-        //return response()->json(['data' => $buyers], 200);
+
         return $this->showAll($buyers);
     }
 
@@ -29,8 +27,6 @@ class BuyerController extends Controller
      */
     public function show(Buyer $buyer)
     {
-//        return response()->json(['data' => $buyer], 200);
         return $this->showOne($buyer);
     }
-
 }

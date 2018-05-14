@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Buyer;
 use App\Product;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductBuyerController extends Controller
@@ -25,7 +23,5 @@ class ProductBuyerController extends Controller
             ->values();
 
         return $this->showAll($buyers);
-
     }
-
 }

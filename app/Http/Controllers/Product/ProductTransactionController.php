@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Transaction;
 use App\Product;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductTransactionController extends Controller
@@ -21,6 +19,4 @@ class ProductTransactionController extends Controller
 
         return $this->showAll($transactions);
     }
-
-
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Product;
 
 use App\Product;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
@@ -20,7 +19,6 @@ class ProductController extends Controller
         return $this->showAll($products);
     }
 
-
     /**
      * Display the specified resource.
      *
@@ -31,7 +29,4 @@ class ProductController extends Controller
     {
         return $this->showOne($product);
     }
-
-
-
 }

@@ -2,29 +2,28 @@
 
 namespace App;
 
-use App\Scopes\BuyerScope;
 use App\User;
 use App\Transaction;
+use App\Scopes\BuyerScope;
+use App\Http\Resources\BuyerResource;
 
 class Buyer extends User
 {
-    /*
-     * Método que se va a ejecutar cada vez que cree el modelo.
-     * y se va a usar para las restricciones. Hereda de Model.
-     * Ponerlo en la primera línea.
-     * */
+    public $resource = BuyerResource::class;
 
-    protected static function boot(){
+    protected $hidden = [
+        'password', 'remember_token', 'email',
+    ];
+
+    protected static function boot()
+    {
         parent::boot();
 
-        //Hay que crear el scope a mano
-        static::addGlobalScope(new BuyerScope());
+        static::addGlobalScope(new BuyerScope);
     }
 
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
     }
-
-
 }

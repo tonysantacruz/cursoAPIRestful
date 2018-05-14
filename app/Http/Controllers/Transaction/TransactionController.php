@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Transaction;
 
 use App\Transaction;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
@@ -30,5 +29,4 @@ class TransactionController extends Controller
     {
         return $this->showOne($transaction);
     }
-
 }

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Category;
 
-use App\Seller;
 use App\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CategorySellerController extends Controller
@@ -26,5 +24,4 @@ class CategorySellerController extends Controller
 
         return $this->showAll($sellers);
     }
-
 }

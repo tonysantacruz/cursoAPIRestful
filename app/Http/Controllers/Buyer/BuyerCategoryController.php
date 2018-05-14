@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Buyer;
 
-use App\Category;
 use App\Buyer;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class BuyerCategoryController extends Controller
@@ -21,9 +19,9 @@ class BuyerCategoryController extends Controller
             ->with('product.categories')
             ->get()
             ->pluck('product.categories')
-            ->collapse()//Coge el array multidimensional y lo hace unidimensional
+            ->collapse()
             ->unique('id')
-            ->values(); //quita los índices de principio de array
+            ->values();
 
         return $this->showAll($categories);
     }

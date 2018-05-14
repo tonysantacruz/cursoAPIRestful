@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Category;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -20,7 +21,6 @@ class CategoryController extends Controller
         return $this->showAll($categories);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -29,14 +29,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-           'name'           => 'required| max:255',
-           'description'    => 'required| max:1000 '
-        ]);
+        $rules = [
+            'name' => 'required|max:255',
+            'description' => 'required|max:1000',
+        ];
+
+        $data = $this->transformAndValidateRequest(CategoryResource::class, $request, $rules);
 
         $category = Category::create($data);
 
-        return $this->showOne($category);
+        return $this->showOne($category, 201);
     }
 
     /**
@@ -47,7 +49,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return $this->showOne($category, 201);
+        return $this->showOne($category);
     }
 
     /**
@@ -59,17 +61,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-         $request->validate([
-            'name'           => 'max:255',
-            'description'    => 'max:1000 '
-        ]);
+        $rules = [
+            'name' => 'max:255',
+            'description' => 'max:1000',
+        ];
 
-        $category->fill($request->only([
-            'name',
-            'description'
-        ]));
+        $data = $this->transformAndValidateRequest(CategoryResource::class, $request, $rules);
 
-        if($category->isClean()){
+        $category->fill($data);
+
+        if ($category->isClean()) {
             return $this->errorResponse('You need to specify any new value to update the category', 422);
         }
 

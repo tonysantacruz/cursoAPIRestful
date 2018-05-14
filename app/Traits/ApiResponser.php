@@ -2,36 +2,24 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
-trait ApiResponse
+trait ApiResponser
 {
-
-    /*
-     * Función que devuelve la información correcta
-     */
     function successResponse($data, $code = 200)
     {
         return response()->json($data, $code);
     }
-    /*
-     * Función que devuelve la información de error
-     */
+
     function errorResponse($message, $code)
     {
-        return response()->json(['error' =>['message' => $message, 'code' => $code]], $code);
+        return response()->json(['error' => ['message' => $message, 'code' => $code]], $code);
     }
-    /*
-     * Función que devuelve todos los elementos
-     *
-     * @param Collection use Illuminate\Support\Collection;
-     *
-     */
+
     function showAll(Collection $collection, $code = 200)
     {
-        if($collection->isEmpty())
-        {
+        if ($collection->isEmpty()) {
             return $this->successResponse(['data' => $collection], $code);
         }
 
@@ -51,8 +39,8 @@ trait ApiResponse
         return $this->successResponse(['data' => $transformedInstance], $code);
     }
 
-    function showMessage($mesage, $code =200)
+    function showMessage($message, $code = 200)
     {
-        return $this->successResponse($mesage, $code);
+        return $this->successResponse($message, $code);
     }
 }

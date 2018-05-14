@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Product;
 use App\Seller;
+use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends Controller
@@ -24,17 +25,6 @@ class SellerProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @param  \App\Seller  $seller
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Seller $seller)
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -43,12 +33,13 @@ class SellerProductController extends Controller
      */
     public function store(Request $request, Seller $seller)
     {
-        $data = $request->validate([
-            'name' => 'required | max:255',
-            'description' => 'required | max:255',
-            'quantity' => 'required | min:1',
+        $rules = [
+            'name' => 'required|max:255',
+            'description' => 'required|max:1000',
+            'quantity' => 'required|integer|min:1',
+        ];
 
-        ]);
+        $data = $this->transformAndValidateRequest(ProductResource::class, $request, $rules);
 
         $data['status'] = Product::NOT_AVAILABLE;
         $data['seller_id'] = $seller->id;
@@ -56,20 +47,6 @@ class SellerProductController extends Controller
         $product = Product::create($data);
 
         return $this->showOne($product, 201);
-
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Seller  $seller
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Seller $seller, Product $product)
-    {
-        //
     }
 
     /**
@@ -82,27 +59,25 @@ class SellerProductController extends Controller
      */
     public function update(Request $request, Seller $seller, Product $product)
     {
-        $data = $request->validate([
-           'name' => 'max:255',
-           'description' => 'max:1000',
-           'quantity' => 'integer|min:1',
-           'status' => 'in:' . Product::AVAILABLE . ',' . Product::NOT_AVAILABLE,
-        ]);
+        $rules = [
+            'name' => 'max:255',
+            'description' => 'max:1000',
+            'quantity' => 'integer|min:1',
+            'status' => 'in:' . Product::AVAILABLE . ',' . Product::NOT_AVAILABLE,
+        ];
 
-        $this->checkSeller($seller , $product);
+        $data = $this->transformAndValidateRequest(ProductResource::class, $request, $rules);
+
+        $this->checkSeller($seller, $product);
 
         $product->fill($data);
 
-        $product->status = $request->status;
-        if($product->status === Product::AVAILABLE && $product->categories()->count()=== 0)
-        {
+        if ($product->status === Product::AVAILABLE && $product->categories()->count() === 0) {
             return $this->errorResponse('An active product must have at least one category', 409);
         }
 
-
-        if($product->isClean())
-        {
-            return $this->errorResponse('Please specify at least one new value to update.', 409);
+        if ($product->isClean()) {
+            return $this->errorResponse('Please specify at least one new value to update', 422);
         }
 
         $product->save();
@@ -126,17 +101,9 @@ class SellerProductController extends Controller
         return $this->showOne($product);
     }
 
-    /**
-     * Checks if the specified seller is the same as the product seller.
-     *
-     * @param  \App\Seller  $seller
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    function checkSeller(Seller $seller , Product $product)
+    public function checkSeller(Seller $seller, Product $product)
     {
-        if($seller->id != $product->seller_id)
-        {
+        if ($seller->id != $product->seller_id) {
             throw new HttpException(403, 'The specified seller is not the actual seller of this product');
         }
     }

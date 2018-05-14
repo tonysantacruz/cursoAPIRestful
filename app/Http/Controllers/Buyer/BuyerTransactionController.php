@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Buyer;
 
-use App\Transaction;
 use App\Buyer;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class BuyerTransactionController extends Controller
@@ -21,5 +19,4 @@ class BuyerTransactionController extends Controller
 
         return $this->showAll($transactions);
     }
-
 }
