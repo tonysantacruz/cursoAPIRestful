@@ -25,12 +25,26 @@ abstract class BaseResource extends Resource
      */
     public function toArray($request)
     {
+        if(!isset($this->resource))
+        {
+            return;
+        }
+
         $visibleAttributes = $this->resource->attributesToArray();
 
         $transformedAttributes = [];
 
         foreach ($visibleAttributes as $attribute => $value) {
             $transformedAttributes[static::mapAttribute($attribute)] = $value;
+        }
+
+        if(method_exists($this, 'generateLinks'))
+        {
+            $hateoas = [
+              'links' => $this->generateLinks($request),
+            ];
+
+            return array_merge($transformedAttributes, $hateoas);
         }
 
         return $transformedAttributes;

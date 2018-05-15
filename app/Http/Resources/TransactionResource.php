@@ -14,4 +14,26 @@ class TransactionResource extends BaseResource
         'updated_at' => 'last_modified',
         'created_at' => 'creation_date',
     ];
+
+    public function generateLinks()
+    {
+        return [
+            [
+                'rel' => 'self',
+                'href' => route('transactions.show', $this->id),
+            ],
+            [
+                'rel' => 'transaction.categories',
+                'href' => route('transactions.categories.index', $this->id),
+            ],
+            [
+                'rel' => 'transaction.seller',
+                'href' => route('transactions.sellers.index', $this->id),
+            ],
+            [
+                'rel' => 'buyer',
+                'href' => route('buyers.show', $this->buyer_id),
+            ],
+        ];
+    }
 }
